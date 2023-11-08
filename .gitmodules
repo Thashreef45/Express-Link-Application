@@ -1,0 +1,18 @@
+[submodule "api-gateway"]
+	path = api-gateway
+	url = https://github.com/Thashreef45/api-gateway-express-link
+[submodule "auth-service"]
+	path = auth-service
+	url = https://github.com/Thashreef45/auth-service
+[submodule "consignment-service"]
+	path = consignment-service
+	url = https://github.com/Thashreef45/consignment-service
+[submodule "channel-partner-service"]
+	path = channel-partner-service
+	url = https://github.com/Thashreef45/channel-partner-service
+[submodule "nodal-service"]
+	path = nodal-service
+	url = https://github.com/Thashreef45/nodal-point-service
+[submodule "apex-service"]
+	path = apex-service
+	url = https://github.com/Thashreef45/apex-service
