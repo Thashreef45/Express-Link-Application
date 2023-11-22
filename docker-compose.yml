@@ -17,7 +17,8 @@ services:
     networks:
       - express-link
     depends_on:
-      - db
+      - gateway
+      
 
   nodal-point:
     image: thashreef/nodal-point:1.0
@@ -27,6 +28,7 @@ services:
       - express-link
     depends_on:
       - db
+      - message_queue
 
   channel-partner:
     image: thashreef/channel-partner:1.0
@@ -36,6 +38,7 @@ services:
       - express-link
     depends_on:
       - db
+      - message_queue
 
   consignment:
     image: thashreef/consignment:1.0
@@ -45,6 +48,7 @@ services:
       - express-link
     depends_on:
       - db
+      - message_queue
 
   apex:
     image: thashreef/apex:3.0
@@ -54,6 +58,7 @@ services:
       - express-link
     depends_on:
       - db
+      - message_queue
 
   message_queue:
     image: rabbitmq
@@ -61,8 +66,6 @@ services:
       - "5672:5672"
     networks:
       - express-link
-    depends_on:
-      - db
 
   auth:
     image: thashreef/auth-service:2.0
@@ -70,8 +73,6 @@ services:
       - "3004:3004"
     networks:
       - express-link
-    depends_on:
-      - db
 
   gateway:
     image: thashreef/api-gateway:2.0
@@ -79,8 +80,6 @@ services:
       - "3333:3333"
     networks:
       - express-link
-    depends_on:
-      - db
 
 networks:
   express-link:
