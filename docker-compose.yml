@@ -10,6 +10,13 @@ services:
     volumes:
       - mongodb-data:/data/db
 
+  message_queue:
+    image: rabbitmq
+    ports:
+      - "5672:5672"
+    networks:
+      - express-link
+
   client:
     image: thashreef/express-client:2.0
     ports:
@@ -18,7 +25,6 @@ services:
       - express-link
     depends_on:
       - gateway
-      
 
   nodal-point:
     image: thashreef/nodal-point:1.0
@@ -60,13 +66,6 @@ services:
       - db
       - message_queue
 
-  message_queue:
-    image: rabbitmq
-    ports:
-      - "5672:5672"
-    networks:
-      - express-link
-
   auth:
     image: thashreef/auth-service:2.0
     ports:
@@ -83,6 +82,7 @@ services:
 
 networks:
   express-link:
+
 
 volumes:
   mongodb-data:
