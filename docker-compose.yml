@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  db:
+    image: mongo
+    ports:
+      - "32768:27017"
+    networks:
+      - express-link
+    volumes:
+      - mongodb-data:/data/db
+
+  client:
+    image: thashreef/express-client:2.0
+    ports:
+      - "5000:5000"
+    networks:
+      - express-link
+    depends_on:
+      - db
+
+  nodal-point:
+    image: thashreef/nodal-point:1.0
+    ports:
+      - "3002:3002"
+    networks:
+      - express-link
+    depends_on:
+      - db
+
+  channel-partner:
+    image: thashreef/channel-partner:1.0
+    ports:
+      - "3001:3001"
+    networks:
+      - express-link
+    depends_on:
+      - db
+
+  consignment:
+    image: thashreef/consignment:1.0
+    ports:
+      - "3000:3000"
+    networks:
+      - express-link
+    depends_on:
+      - db
+
+  apex:
+    image: thashreef/apex:3.0
+    ports:
+      - "3003:3003"
+    networks:
+      - express-link
+    depends_on:
+      - db
+
+  message_queue:
+    image: rabbitmq
+    ports:
+      - "5672:5672"
+    networks:
+      - express-link
+    depends_on:
+      - db
+
+  auth:
+    image: thashreef/auth-service:2.0
+    ports:
+      - "3004:3004"
+    networks:
+      - express-link
+    depends_on:
+      - db
+
+  gateway:
+    image: thashreef/api-gateway:2.0
+    ports:
+      - "3333:3333"
+    networks:
+      - express-link
+    depends_on:
+      - db
+
+networks:
+  express-link:
+
+volumes:
+  mongodb-data:
