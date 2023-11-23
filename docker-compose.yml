@@ -22,7 +22,7 @@ services:
 
   client:
     container_name: client
-    image: thashreef/express-client:3.0
+    image: thashreef/express-client:2.0
     ports:
       - "5000:5000"
     networks:
