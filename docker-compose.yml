@@ -1,7 +1,17 @@
 version: '3.8'
 
 services:
+  
+  message_queue:
+    container_name: message-queue
+    image: rabbitmq
+    ports:
+      - "5672:5672"
+    networks:
+      - express-link
+  
   db:
+    container_name: db
     image: mongo
     ports:
       - "32768:27017"
@@ -10,23 +20,16 @@ services:
     volumes:
       - mongodb-data:/data/db
 
-  message_queue:
-    image: rabbitmq
-    ports:
-      - "5672:5672"
-    networks:
-      - express-link
-
   client:
+    container_name: client
     image: thashreef/express-client:2.0
     ports:
       - "5000:5000"
     networks:
       - express-link
-    depends_on:
-      - gateway
 
   nodal-point:
+    container_name: nodal-point
     image: thashreef/nodal-point:1.0
     ports:
       - "3002:3002"
@@ -35,8 +38,11 @@ services:
     depends_on:
       - db
       - message_queue
+    restart : on-failure
+
 
   channel-partner:
+    container_name: channel-partner
     image: thashreef/channel-partner:1.0
     ports:
       - "3001:3001"
@@ -45,8 +51,11 @@ services:
     depends_on:
       - db
       - message_queue
+    restart : on-failure
+    
 
   consignment:
+    container_name: consignment
     image: thashreef/consignment:1.0
     ports:
       - "3000:3000"
@@ -55,8 +64,10 @@ services:
     depends_on:
       - db
       - message_queue
+    restart : on-failure
 
   apex:
+    container_name: apex
     image: thashreef/apex:3.0
     ports:
       - "3003:3003"
@@ -65,8 +76,10 @@ services:
     depends_on:
       - db
       - message_queue
+    restart : on-failure
 
   auth:
+    container_name: auth
     image: thashreef/auth-service:2.0
     ports:
       - "3004:3004"
@@ -74,6 +87,7 @@ services:
       - express-link
 
   gateway:
+    container_name: gateway
     image: thashreef/api-gateway:2.0
     ports:
       - "3333:3333"
@@ -83,6 +97,7 @@ services:
 networks:
   express-link:
 
-
 volumes:
   mongodb-data:
+
+
